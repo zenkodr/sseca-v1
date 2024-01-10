@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Oxygen';
+    src:
+      url('/public/fonts/Oxygen.woff2') format('woff2'),
+      url('/public/fonts/Oxygen.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SPHERE FEZ';
+    src:
+      url('/public/fonts/Sphere.woff2') format('woff2'),
+      url('/public/fonts/Sphere.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  html {
+    font-family: var(--font-oxygen);
+    color: #dfd699;
+  }
+}
+
+@layer utilities {
+  .sdw-none {
+    box-shadow: none;
+  }
+  .shadow-top {
+    box-shadow: 0 -5px 5px -5px #dfd699;
+  }
+
+  .shadow-right {
+    box-shadow: -5px 0 5px -5px #dfd699;
+  }
+
+  .shadow-bottom {
+    box-shadow: 0 5px 5px -5px #dfd699;
+  }
+
+  .shadow-left {
+    box-shadow: 5px 0 5px -5px #dfd699;
+  }
+
+  .shadow-all {
+    box-shadow: 0 0 5px #dfd699;
+  }
+
+  .card-wrapper {
+    @apply bg-sseca-ebony/20 border border-sseca-ebony/60 rounded-2xl text-sseca-zombie shadow-lg shadow-sseca-zombie;
+  }
+
+  .sseca-ul {
+    @apply list-disc text-shadow items-center list-outside py-2 ml-10 text-start text-xl text-shadow-sseca-ebony;
+  }
+
+  .blue-marker {
+    li::marker {
+      @apply text-sseca-seagull;
+    }
+  }
+
+  .card-wrapper-drk {
+    @apply bg-sseca-ebony/60 border border-sseca-ebony/60 rounded-2xl text-sseca-zombie shadow-lg shadow-sseca-zombie;
+  }
+
+  .img-accent-shadow {
+    @apply drop-shadow-sseca-lg50 border border-sseca-ebony/60;
+  }
+
+  .inset-shadow-drklg {
+    box-shadow: inset 0 5px 6px 0px rgb(223, 214, 153);
+  }
+
+  .inset-shadow {
+    @apply shadow-inner shadow-sseca-zombie/60;
+  }
+
+  .title-txt-xl {
+    @apply text-shadow-sm md:text-6xl text-shadow-sseca-ebony text-sseca-zombie text-3xl;
+  }
+
+  .title-txt-lg {
+    @apply text-shadow-sm md:text-4xl text-shadow-sseca-ebony text-sseca-zombie text-3xl;
+  }
+
+  .title-txt-md {
+    @apply text-shadow md:text-3xl my-5 text-shadow-sseca-ebony text-sseca-zombie text-2xl;
+  }
+
+  .title-txt-sm {
+    @apply text-shadow md:text-2xl my-2 text-shadow-sseca-ebony text-sseca-zombie text-xl;
+  }
+
+  .title-txt {
+    @apply text-shadow md:text-[22px] my-2 text-shadow-sseca-ebony text-sseca-zombie text-lg;
+  }
+
+  .txt-base {
+    @apply text-shadow-sm text-shadow-sseca-ebony md:text-xl text-lg;
+  }
+
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+
+  .flex-start {
+    @apply flex justify-start items-center;
+  }
+
+  .inset-shadow-lg {
+    box-shadow: inset 0 10px 12px 0px rgb(0 0 0 / 1);
+  }
+
+  .inset-shadow-drk_lg {
+    box-shadow: inset 0 10px 12px 0px rgb(0 0 0 / 0.9);
+  }
+
+  .hoverCard-link-content {
+    @apply cursor-pointer mb-2 hover:text-shadow hover:border-b text-sseca-zombie hover:border-sseca-zombie hover:text-shadow-sseca-ebony;
+  }
+
+  .hoverCard-link {
+    @apply hover:border-b hover:border-sseca-zombie hover:text-shadow-sseca-ebony;
+  }
+
+  .hoverCard-link-main {
+    @apply cursor-pointer text-sseca-zombie hover:text-shadow hover:border-b hover:border-sseca-zombie hover:text-shadow-sseca-ebony;
+  }
+
+  .nftGridContainer {
+    @apply flex flex-row flex-wrap gap-[1%] w-full;
+  }
+
+  .HoverCardContent {
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .HoverCardContent[data-side='top'] {
+    animation-name: slideUp;
+  }
+  .HoverCardContent[data-side='bottom'] {
+    animation-name: slideDown;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
