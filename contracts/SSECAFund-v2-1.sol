@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.23;
+pragma solidity ^0.8.23;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
 
@@ -8,14 +9,14 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
  * @title FundMe Campaign
  * @notice Creates crowdfunding campaigns allowing people to donate funds
  */
-contract FundMe is ReentrancyGuard, Pausable {
+contract FundMe is Ownable, ReentrancyGuard, Pausable {
   enum CampaignState { Active, Finished, Paused }
 
   struct Campaign {
     address payable owner;
     string title;
     string description;
-    uint256 target;
+    uint128 target;
     uint256 deadline;
     uint256 amountCollected;
     string image;
@@ -26,12 +27,6 @@ contract FundMe is ReentrancyGuard, Pausable {
   mapping(bytes32 => mapping(address => uint256)) public donations;
 
   uint256 public numberOfCampaigns;
-  address public immutable owner;
-
-  modifier onlyOwner() {
-    require(msg.sender == owner, "Only owner can call this function");
-    _;
-  }
 
   event CampaignCreated(bytes32 indexed campaignId);
   event Donated(address indexed donator, uint256 amount, bytes32 campaignId);
@@ -41,13 +36,13 @@ contract FundMe is ReentrancyGuard, Pausable {
   event DonationFailed(address indexed donator, uint256 amount, bytes32 campaignId);
 
   constructor() {
-    owner = msg.sender;
+    // No need to assign the owner variable as it is already defined in the Ownable contract
   }
 
   function createCampaign(
     string memory title,
     string memory description,
-    uint256 target,
+    uint128 target,
     uint256 deadline,
     string memory image
   ) public onlyOwner whenNotPaused returns (bytes32 campaignId) {
@@ -120,11 +115,7 @@ contract FundMe is ReentrancyGuard, Pausable {
     campaign.amountCollected += msg.value;
     donations[campaignId][msg.sender] += msg.value;
 
-    (bool success, ) = campaign.owner.call{value: msg.value}("");
-    if (!success) {
-      emit DonationFailed(msg.sender, msg.value, campaignId);
-      revert("Transfer failed");
-    }
+    campaign.owner.transfer(msg.value);
 
     emit Donated(msg.sender, msg.value, campaignId);
   }
@@ -141,29 +132,3 @@ contract FundMe is ReentrancyGuard, Pausable {
       }
     }
   }
-
-  function pause() public onlyOwner {
-    _pause();
-  }
-
-  function unpause() public onlyOwner {
-    _unpause();
-  }
-
-  // Helper function to validate URLs
-  function isValidUrl(string memory urlString) private pure returns (bool) {
-    bytes memory strBytes = bytes(urlString);
-    if(strBytes.length == 0) return false;
-
-    // URL must start with http:// or https://
-    if (strBytes.length <= 7) return false;
-    if (strBytes[0] != 'h' || strBytes[1] != 't' || strBytes[2] != 't' || strBytes[3] != 'p') return false;
-    if (strBytes[4] != ':' || strBytes[5] != '/' || strBytes[6] != '/') return false;
-    if (strBytes.length > 8 && strBytes[7] == 's') {
-      if (strBytes.length <= 8 || strBytes[8] != '/') return false;
-    }
-
-    // Further validation can be added as needed
-    return true;
-  }
-}

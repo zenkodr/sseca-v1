@@ -2,7 +2,7 @@
 
 'use client'
 
-import { slideInFromLeft, slideInFromRight } from '@/util/motion'
+import { slideInFromLeft, slideInFromRight } from '@/utils/motion'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 

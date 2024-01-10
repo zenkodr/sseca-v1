@@ -1,3 +1,5 @@
 {
-  "cSpell.words": ["multicoin"]
+  "cSpell.words": ["multicoin"],
+  "solidity-va.codelens.enable": false,
+  "solidity-va.codelens.report.enable": false
 }
